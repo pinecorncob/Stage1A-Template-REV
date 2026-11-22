@@ -6,12 +6,15 @@
 package first.robot.opmode;
 
 import first.robot.Robot;
+import org.wpilib.driverstation.XboxController;
 import org.wpilib.opmode.PeriodicOpMode;
 import org.wpilib.opmode.Teleop;
 
 @Teleop
 public class MyTeleop extends PeriodicOpMode {
   private final Robot robot;
+
+  private final XboxController xboxController = new XboxController(0);
 
   /** The Robot instance is passed into the opmode via the constructor. */
   public MyTeleop(Robot robot) {
@@ -21,5 +24,10 @@ public class MyTeleop extends PeriodicOpMode {
   @Override
   public void periodic() {
     /* Called periodically (set time interval) while the robot is enabled. */
+
+    // getLeftY() gets the y axis value of the left joystick (since xbox controllers have
+    // 2 joysticks)
+    // it must be inverted because xbox controllers are weird and make the down the +y direction
+    robot.drivetrain_tank.arcadeDrive(-xboxController.getLeftY(), xboxController.getRightX());
   }
 }

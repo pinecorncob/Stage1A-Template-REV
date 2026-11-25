@@ -16,6 +16,7 @@ import org.wpilib.math.system.DCMotor;
 import org.wpilib.math.util.Units;
 import org.wpilib.simulation.DifferentialDrivetrainSim;
 import org.wpilib.simulation.OnboardIMUSim;
+import org.wpilib.smartdashboard.Field2d;
 import org.wpilib.telemetry.Telemetry;
 import org.wpilib.telemetry.TelemetryTable;
 
@@ -29,6 +30,9 @@ public class DrivetrainSim {
   private final double kWheelRadiusMeters = 0.0762; // 3 inches
   private static final double kBusVoltage = 12.0;
 
+  // field2d widget to allow 2d simulation visualization directly from the sim gui
+  private final Field2d field = new Field2d();
+
   private final DifferentialDrivetrainSim m_driveSim =
       new DifferentialDrivetrainSim(
           DCMotor.getNEO(2), // 2 NEO motors on each side of the drivetrain.
@@ -39,9 +43,11 @@ public class DrivetrainSim {
           0.546, // Distance between wheels in meters.
           null);
 
+  // telemetry tables send data from the robot simulation program to the sim gui
   private final TelemetryTable table = Telemetry.getTable("Drivetrain");
-  private final TelemetryTable leftMotorTable = table.getTable("LeftMotor");
-  private final TelemetryTable rightMotorTable = table.getTable("RightMotor");
+
+  // private final TelemetryTable leftMotorTable = table.getTable("LeftMotor");
+  // private final TelemetryTable rightMotorTable = table.getTable("RightMotor");
 
   public DrivetrainSim(SparkMax leftSpark, SparkMax rightSpark) {
     this.leftSpark = leftSpark;
@@ -82,6 +88,10 @@ public class DrivetrainSim {
     table.log("RightPosition", Meters.of(m_driveSim.getRightPosition()));
     table.log("LeftVelocity", MetersPerSecond.of(m_driveSim.getLeftVelocity()));
     table.log("RightVelocity", MetersPerSecond.of(m_driveSim.getRightVelocity()));
+
+    // update field2d
+    field.setRobotPose(m_driveSim.getPose());
+    table.log("Field", field);
   }
 
   public void setPose(Pose2d pose) {

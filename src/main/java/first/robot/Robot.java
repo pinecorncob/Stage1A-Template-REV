@@ -5,7 +5,6 @@
  */
 package first.robot;
 
-import org.wpilib.framework.OpModeRobot;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -13,6 +12,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.*;
 import first.robot.simulation.DrivetrainSim;
 import org.wpilib.drive.DifferentialDrive;
+import org.wpilib.framework.OpModeRobot;
 import org.wpilib.hardware.bus.CANPort;
 import org.wpilib.hardware.imu.OnboardIMU;
 import org.wpilib.hardware.imu.OnboardIMU.MountOrientation;
@@ -42,6 +42,8 @@ public class Robot extends OpModeRobot {
   // (parallel to ground)
   private final OnboardIMU imu = new OnboardIMU(MountOrientation.FLAT);
 
+  private final DrivetrainSim drivetrainSim = new DrivetrainSim(leftLeader, rightLeader);
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -63,6 +65,7 @@ public class Robot extends OpModeRobot {
         PersistMode.kPersistParameters);
 
     SparkMaxConfig rightConfig = new SparkMaxConfig();
+    rightConfig.inverted(false);
 
     rightLeader.configure(
         rightConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -74,5 +77,7 @@ public class Robot extends OpModeRobot {
 
   @Override
   public void simulationPeriodic() {
+    // must be called in order for the simulation to run
+    drivetrainSim.periodic();
   }
 }

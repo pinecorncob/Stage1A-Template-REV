@@ -22,7 +22,7 @@ import org.wpilib.telemetry.TelemetryTable;
 public class DrivetrainSim_Annotated {
 
   // to be clear: NEO is the name of the motor, and sparkmax is the name of the motor controller.
-  // because one of the motors follows the other on each side of the drivetrain, we only 
+  // because one of the motors follows the other on each side of the drivetrain, we only
   // have one sparkmax on each side
 
   // create sparkmax objects like you would on a real robot
@@ -42,16 +42,16 @@ public class DrivetrainSim_Annotated {
   // wpilib provides an object called DifferentialDriveTrainSim that simulates the
   // state of the drivetrain
   // parameters:
-    /*  driveMotor - A DCMotor representing the left side of the drivetrain.
-        gearing - The gearing ratio between motor and wheel, as output over input. This must be the same ratio as the ratio used to identify or create the drivetrainPlant.
-        j - The moment of inertia of the drivetrain about its center in kg-m².
-        mass - The mass of the drivebase in kg.
-        wheelRadius - The radius of the wheels on the drivetrain in meters.
-        trackwidth - The robot's trackwidth, or distance between left and right wheels, in meters.
-     */
+  /*  driveMotor - A DCMotor representing the left side of the drivetrain.
+     gearing - The gearing ratio between motor and wheel, as output over input. This must be the same ratio as the ratio used to identify or create the drivetrainPlant.
+     j - The moment of inertia of the drivetrain about its center in kg-m².
+     mass - The mass of the drivebase in kg.
+     wheelRadius - The radius of the wheels on the drivetrain in meters.
+     trackwidth - The robot's trackwidth, or distance between left and right wheels, in meters.
+  */
   private final DifferentialDrivetrainSim m_driveSim =
       new DifferentialDrivetrainSim(
-          DCMotor.getNEO(2), // 2 NEO motors on each side of the drivetrain. 
+          DCMotor.getNEO(2), // 2 NEO motors on each side of the drivetrain.
           kGearRatio,
           2.1, // MOI of 2.1 kg m^2 (from CAD model).
           26.5, // Mass of the robot is 26.5 kg.
@@ -59,7 +59,6 @@ public class DrivetrainSim_Annotated {
           0.546, // Distance between wheels in meters.
           null);
 
-  
   private final TelemetryTable table = Telemetry.getTable("Drivetrain");
   private final TelemetryTable leftMotorTable = table.getTable("LeftMotor");
   private final TelemetryTable rightMotorTable = table.getTable("RightMotor");
@@ -99,9 +98,9 @@ public class DrivetrainSim_Annotated {
 
     // setPosition updates the simulated encoders with the position
     // set position takes in the position in revolutions/rotations for the encoder
-      // m_driveSim.getLeftPosition() -> distance left side of the robot has traveled
-      // divide by kWheelRadiusMeters -> angular displacement of the wheel (rad)
-      // * kGearRatio -> angular displacement of the motor which the encoder tracks
+    // m_driveSim.getLeftPosition() -> distance left side of the robot has traveled
+    // divide by kWheelRadiusMeters -> angular displacement of the wheel (rad)
+    // * kGearRatio -> angular displacement of the motor which the encoder tracks
     leftEncoderSim.setPosition(
         Units.radiansToRotations(m_driveSim.getLeftPosition() / kWheelRadiusMeters * kGearRatio));
     leftEncoderSim.setVelocity(

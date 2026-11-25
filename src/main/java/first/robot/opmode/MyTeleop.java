@@ -28,8 +28,6 @@ public class MyTeleop extends PeriodicOpMode {
     // getLeftY() gets the y axis value of the left joystick (since xbox controllers have
     // 2 joysticks)
     // it must be inverted because xbox controllers are weird and make the down the +y direction
-    // note: xboxController.getLeftY() not working in simulation to make robot drive forward
-    // button binding issue?
-    robot.drivetrain_tank.arcadeDrive(-xboxController.getLeftY(), xboxController.getRightX() * 0.3);
+    robot.drivetrain.arcadeDrive(-xboxController.getLeftY(), xboxController.getRightX() * 0.3);
   }
 }

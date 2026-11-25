@@ -34,7 +34,7 @@ public class Robot extends OpModeRobot {
 
   // sets differential drive to send its values to the left and right leading motors'
   // setThrottle methods
-  public final DifferentialDrive drivetrain_tank =
+  public final DifferentialDrive drivetrain =
       new DifferentialDrive(leftLeader::setThrottle, rightLeader::setThrottle);
 
   // imu keeps track of the robot's 3d rotation (pitch, roll, yaw)
